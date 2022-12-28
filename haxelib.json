@@ -1,0 +1,17 @@
+{
+    "name" : "JsonAnimAtlas",
+    "license": "MIT",
+    "tags": [
+        "Json", "Flixel", "Haxe", "AdobeAnimate", "Animate"
+    ],
+    "description": "Native parser of Json to XMLAtlas anim for uses of flixel.",
+    "version" : "0.0.1",
+    "releasenote": "Initial release",
+    "contributors": [
+        "MrNiz"
+    ],
+    "dependencies" : {
+        "flixel" : ""
+    }
+  
+} 
