@@ -23,7 +23,6 @@ class Test
 
         }');
         trace(Interp.convertToXML(mySwagJson));
-        return;
 
     }
 }

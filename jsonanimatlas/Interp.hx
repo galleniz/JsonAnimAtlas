@@ -5,12 +5,26 @@ import haxe.Json;
 
 class Interp
 {
-    static var coolRepo:String = "";
+    static var coolRepo:String = "https://github.com/MrNiz/JsonAnimAtlas";
     static var ver:String = "0.0.1";
-    static var palVer(default, null):String;
-    static inline function get_palVer():String
+    static var palVer:String = "";
+    static inline function get_palVer()
     {
-        return "0.0.1";
+        var http = new haxe.Http("https://raw.githubusercontent.com/mrniz/JsonAnimAtlas/main/haxelib.json");
+        // var returnedData:Array<String> = [];
+
+        http.onData = function(data:String)
+        {
+            trace(data);
+            var js = Json.parse(data);
+            // trace(e);
+            palVer = '${js.version}';
+            trace(palVer);
+        }
+        http.onError = function(error)
+            trace('error: $error');
+        http.request();
+        // return ""
     }
 
     /**
@@ -54,6 +68,8 @@ class Interp
     **/
     public static function convertToXML(Data:Dynamic):String
     {
+
+        get_palVer();
         var json:Dynamic = Data;
         if (Data is String) json = Json.parse(Data);
 
