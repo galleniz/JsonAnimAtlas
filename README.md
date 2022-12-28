@@ -1,6 +1,6 @@
 # IMPORTANT
 This library is decraped because:
-https://media.discordapp.net/attachments/830603085554515975/1057700441309323385/image.png
+https://cdn.discordapp.net/attachments/830603085554515975/1057700441309323385/image.png
 
 but if i will remastered this in some day, no for now.
 # JsonAnimAtlas Lib
