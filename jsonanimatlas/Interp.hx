@@ -94,23 +94,11 @@ class Interp
                                     for (field in fields)
                                     {
                                         var di:Dynamic = Reflect.getProperty(i, field);
-                                        
-                                        switch(field)
-                                        {
-                                            case "name":
-                                                if ((di is String))
+                                 
+                                        if (field == "name")
                                                 to_add += "name= \"" + di + getIndex(loopN) + "\"";
-                                            case "pos","pivot":
-                                                if ((di is Array)){
-                                                if (field == "pos")
-                                                    to_add += " x=\"" + di[0] + "\" y=\"" + di[1]+ "\"";
-                                                else
-                                                    to_add += " pivotX= "+ "\"" + di[0] + "\"" +  " pivotY= "+ "\""  + di[1] + "\"";
-                                                }
-                                            default:
-                                                if  (field != null || di != null)
+                                        else
                                                 to_add += ' ${field}= "${di}"';
-                                        }
                                     }
                                     loopN += 1;
                                 to_add += " />\n";
