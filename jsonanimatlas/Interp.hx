@@ -63,10 +63,11 @@ class Interp
         
         switch (type)
         {
-            case NizJson(v):
+            case NizJson(v),SimpleEngineJson(v):
                 switch (v)
                 {
                     default:
+                        throw "ERROR: Expected arguments. (Argument palversion/formatV is null!)";
                         // json { "anims": [ { "name":"", "width": 0, "height": 0, "pos": [0,0], "frameWidth": 0, "frameHeight": 0, "pivot": [0,0] } ] } 
                     case "1":
                         var anims:Array<Dynamic> = json.anims;
@@ -105,7 +106,7 @@ class Interp
 
                 }
 
-            case SimpleEngineJson(v):
+            // case SimpleEngineJson(v):
             case AdobeAnimateTextureAtlas:
                 var js =  {
                     "ATLAS": 
