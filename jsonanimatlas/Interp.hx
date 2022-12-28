@@ -1,30 +1,22 @@
 package jsonanimatlas;
 
+#if sys
+import sys.io.File;
+import sys.FileSystem;
+#end
+
 import jsonanimatlas.Types._ParserType;
 import haxe.Json;
-
+using StringTools;
 class Interp
 {
     static var coolRepo:String = "https://github.com/MrNiz/JsonAnimAtlas";
     static var ver:String = "0.0.1";
     static var palVer:String = "";
-    static inline function get_palVer()
+    static function get_palVer()
     {
-        var http = new haxe.Http("https://raw.githubusercontent.com/mrniz/JsonAnimAtlas/main/haxelib.json");
-        // var returnedData:Array<String> = [];
-
-        http.onData = function(data:String)
-        {
-            trace(data);
-            var js = Json.parse(data);
-            // trace(e);
-            palVer = '${js.version}';
-            trace(palVer);
-        }
-        http.onError = function(error)
-            trace('error: $error');
-        http.request();
-        // return ""
+        palVer = Version.getPal();
+        ver = Version.get();
     }
 
     /**
@@ -70,6 +62,9 @@ class Interp
     {
 
         get_palVer();
+        #if debug
+        trace("New atlas parser  local ver: " + ver + " git ver: " + palVer);
+        #end
         var json:Dynamic = Data;
         if (Data is String) json = Json.parse(Data);
 
@@ -83,7 +78,7 @@ class Interp
                 switch (v)
                 {
                     default:
-                        throw "ERROR: Expected arguments. (Argument palversion/formatV is null!)";
+                        throw "[jsonanimatlas.Interp]: Expected arguments. (Argument palversion/formatV is null!)";
                         // json { "anims": [ { "name":"", "width": 0, "height": 0, "pos": [0,0], "frameWidth": 0, "frameHeight": 0, "pivot": [0,0] } ] } 
                     case "1":
                         var anims:Array<Dynamic> = json.anims;
@@ -96,53 +91,42 @@ class Interp
                                 
                                 var to_add:String = "<SubTexture ";
                                 if (fields.length > 1)
-                                    for (field in fields){
+                                    for (field in fields)
+                                    {
                                         var di:Dynamic = Reflect.getProperty(i, field);
+                                        
                                         switch(field)
                                         {
                                             case "name":
+                                                if ((di is String))
                                                 to_add += "name= \"" + di + getIndex(loopN) + "\"";
-                                            case "pos":
-                                                to_add += " x=\"" + di[0] + "\" y=\"" + di[1]+ "\"";
-                                            case "pivot":
-                                                to_add += " pivotX= "+ "\"" + di[0] + "\"" +  " pivotY= "+ "\""  + di[1] + "\"";
+                                            case "pos","pivot":
+                                                if ((di is Array)){
+                                                if (field == "pos")
+                                                    to_add += " x=\"" + di[0] + "\" y=\"" + di[1]+ "\"";
+                                                else
+                                                    to_add += " pivotX= "+ "\"" + di[0] + "\"" +  " pivotY= "+ "\""  + di[1] + "\"";
+                                                }
                                             default:
+                                                if  (field != null || di != null)
                                                 to_add += ' ${field}= "${di}"';
                                         }
                                     }
                                     loopN += 1;
                                 to_add += " />\n";
-                                if (to_add.indexOf("name") != -1) // Make sure addAnim.
+                                var expc =get_expected(to_add);
+                                if (expc == "") // Make sure addAnim.
                                     _xml += to_add;
                                 else
-                                    throw "An error in the sprite anim " + to_add +  "  loop" + loopN;  
+                                    throw "\nExpected arguemnt: " + expc;  
                                             
                                     
                             }
-
                 }
 
             // case SimpleEngineJson(v):
             case AdobeAnimateTextureAtlas:
-                var js =  {
-                    "ATLAS": 
-                    {
-                    "SPRITES":[ 
-                    {"SPRITE" : {"name": "0000","x":98,"y":93,"w":98,"h":137,"rotated": false}},
-                    {"SPRITE" : {"name": "0001","x":0,"y":93,"w":98,"h":155,"rotated": false}},
-                    {"SPRITE" : {"name": "0002","x":0,"y":0,"w":214,"h":93,"rotated": false}}
-                    ]},
-                    "meta": {
-                    "app": "Adobe Animate",
-                    "version": "22.0.4.185",
-                    "image": "spritemap1.png",
-                    "format": "RGBA8888",
-                    "size": {"w":214,"h":248},
-                    "resolution": "1"
-                    }
-                    };
                     var anims:Array<Dynamic> = json.SPRITES;
-                    var loop:Int = 0;
                     for (i in anims)
                         {
                          var to_add:String = '<SubTexture name="anim' + " " + i.SPRITE.name + '"' + " width= " + i.SPRITE.w + " height= " + i.SPRITE.h
@@ -150,17 +134,26 @@ class Interp
                          if (to_add.indexOf("null") != -1)
                             throw "Error in the SPRITESHEET Data: " + i.SPRITE.name;
                          _xml += to_add;
-
-
                         }
 
             default:
-                throw "[jsonanimatlas.Interp]:Null Object Reference\nType is null!\nPlease report in " + coolRepo;
+                throw "[jsonanimatlas.Interp]: Null Object Reference\nType is null!\nPlease report in " + coolRepo;
 
         }
         _xml += "</TextureAtlas>";
 
         return _xml;
+    }
+    static function get_expected(daAnim:String)
+    {
+        var rtr:String = "";
+        var toSearch:Array<String> = ["name","width","height","x","y"];
+        for (search in 0...toSearch.length)
+           if(!daAnim.contains(toSearch[search]))
+             rtr += toSearch[search];
+            
+        return rtr;
+                
     }
     static function getIndex(num:Int) {
         var e= '0000'.length - ('${num}'.length);

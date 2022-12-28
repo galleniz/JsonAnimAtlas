@@ -1,3 +1,8 @@
+# IMPORTANT
+This library is decraped because:
+https://media.discordapp.net/attachments/830603085554515975/1057700441309323385/image.png
+
+but if i will remastered this in some day, no for now.
 # JsonAnimAtlas Lib
 A library based of AdobeAnimate Atlas texture.
 
@@ -38,11 +43,22 @@ var xml = jsonanimatlas.Interp.convertToXML(mySwagJson);
 ```
 - For last step use in you Game!
 ```haxe
-import flixel.FlxSprite;
 // Using Flixel example.
-    var spr = new FlxSrite();
-    myJson = haxe.Json.parse(sys.io.File.getContent("Damian.json").trim());
-    var xml = jsonanimatlas.Interp.convertToXML(mySwagJson);
-    spr.frames = MyPaths.fromSparrow("Damian.png", xml);
-    add(spr);
+
+import flixel.FlxSprite;
+import flixel.FlxState;
+
+class MyState extends FlxState
+{
+    override function create():Void
+    {
+        super.create();
+        var spr = new FlxSrite();
+        var myJson = haxe.Json.parse(sys.io.File.getContent("Damian.json").trim());
+        var xml = jsonanimatlas.Interp.convertToXML(mySwagJson);
+        spr.frames = MyPaths.fromSparrow("Damian.png", xml);
+        add(spr);
+    }
+
+}
 ```

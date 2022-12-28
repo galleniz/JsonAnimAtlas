@@ -7,11 +7,10 @@ import jsonanimatlas.Interp;
 class Test
 {
     static function main() {
-        var mySwagJson = Json.parse('
-        {
+        var mySwagJson = Json.parse('{
             "anims": [
                { 
-                "name":"TengoCancer",
+                "name": "null",
                 "width": 0,
                 "height": 0,
                 "x":0,

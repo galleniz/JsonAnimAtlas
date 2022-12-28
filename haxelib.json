@@ -5,7 +5,7 @@
         "Json", "Flixel", "Haxe", "AdobeAnimate", "Animate"
     ],
     "description": "Native parser of Json to XMLAtlas anim for uses of flixel.",
-    "version" : "0.0.1",
+    "version" : "0.0.2",
     "releasenote": "Initial release",
     "contributors": [
         "MrNiz"
