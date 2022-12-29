@@ -8,6 +8,7 @@ import sys.FileSystem;
 import jsonanimatlas.Types._ParserType;
 import haxe.Json;
 using StringTools;
+using DateTools;
 class Interp
 {
     static var coolRepo:String = "https://github.com/MrNiz/JsonAnimAtlas";
@@ -83,6 +84,7 @@ class Interp
                     case "1":
                         var anims:Array<Dynamic> = json.anims;
                         trace(anims);
+                        var map:Map<String,Int> = [];
 
                         for (i in anims)
                             {
@@ -95,8 +97,12 @@ class Interp
                                     {
                                         var di:Dynamic = Reflect.getProperty(i, field);
                                  
-                                        if (field == "name")
-                                                to_add += "name= \"" + di + getIndex(loopN) + "\"";
+                                        if (field == "name"){
+                                            if (map.get(di) == null) map.set(di,0);
+                                        
+                                                to_add += "name= \"" + di + getIndex(map.get(di)) + "\"";
+                                                map.set(di, map.get(di) + 1);
+                                            }
                                         else
                                                 to_add += ' ${field}= "${di}"';
                                     }
@@ -107,9 +113,11 @@ class Interp
                                     _xml += to_add;
                                 else
                                     throw "\nExpected arguemnt: " + expc;  
-                                            
+                              
                                     
                             }
+                         
+                                     
                 }
 
             // case SimpleEngineJson(v):
@@ -129,7 +137,14 @@ class Interp
 
         }
         _xml += "</TextureAtlas>";
-
+        #if sys
+        if (!FileSystem.exists(Sys.getCwd() + "logs/")) FileSystem.createDirectory(Sys.getCwd() + "logs/");
+        var s = Sys.getCwd() + "logs/logs-" + Date.now().format("%Y-%m-%d") + ".txt";
+        var e = _xml;
+        File.saveContent(s, FileSystem.exists(s) ? File.getContent(s) + "\n" + e : e);
+        s =Sys.getCwd() + "logs/xml-" + Date.now().format("%Y-%m-%d-%s") + ".xml";
+        File.saveContent(s, FileSystem.exists(s) ? File.getContent(s) + "\n\n" + e : e);
+        #end
         return _xml;
     }
     static function get_expected(daAnim:String)
@@ -138,8 +153,13 @@ class Interp
         var toSearch:Array<String> = ["name","width","height","x","y"];
         for (search in 0...toSearch.length)
            if(!daAnim.contains(toSearch[search]))
-             rtr += toSearch[search];
-            
+             rtr += toSearch[search] + " ";
+            #if sys
+            if (!FileSystem.exists(Sys.getCwd() + "logs/")) FileSystem.createDirectory(Sys.getCwd() + "logs/");
+            var s =Sys.getCwd() + "logs/logs-" + Date.now().format("%Y-%m-%d") + ".txt";
+            var e= "Invalid: " + rtr.replace(" ","\n");
+            File.saveContent(s, FileSystem.exists(s) ? File.getContent(s) + "\n" + e : e);
+            #end
         return rtr;
                 
     }
@@ -148,6 +168,7 @@ class Interp
         var rtr="";
         for(i in 0...e)
             rtr += "0";
+
         rtr += num;
         return rtr;
 

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="UnknownSpriteMap.png">
+<!-- Worked in: JsonAnimAtlas 0.0.2  by: MrNiz-->
+<!-- https://github.com/MrNiz/JsonAnimAtlas -->
+<SubTexture name= "b0000" x= "0" y= "0" height= "0" width= "0" />
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="UnknownSpriteMap.png">
+<!-- Worked in: JsonAnimAtlas 0.0.2  by: MrNiz-->
+<!-- https://github.com/MrNiz/JsonAnimAtlas -->
+<SubTexture name= "b0000" x= "0" y= "0" height= "0" width= "0" />
+</TextureAtlas>
+
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="UnknownSpriteMap.png">
+<!-- Worked in: JsonAnimAtlas 0.0.2  by: MrNiz-->
+<!-- https://github.com/MrNiz/JsonAnimAtlas -->
+<SubTexture name= "b0000" x= "0" y= "0" height= "0" width= "0" />
+</TextureAtlas>
+
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="UnknownSpriteMap.png">
+<!-- Worked in: JsonAnimAtlas 0.0.2  by: MrNiz-->
+<!-- https://github.com/MrNiz/JsonAnimAtlas -->
+<SubTexture name= "b0000" x= "0" y= "0" height= "0" width= "0" />
+</TextureAtlas>

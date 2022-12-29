@@ -7,20 +7,7 @@ import jsonanimatlas.Interp;
 class Test
 {
     static function main() {
-        var mySwagJson = Json.parse('{
-            "anims": [
-               { 
-                "name": "null",
-                "width": 0,
-                "height": 0,
-                "x":0,
-                "y":0
-             
-               }
-            ],
-            "formatV": "1"
-
-        }');
+        var mySwagJson = Json.parse('{"anims": [{"name": "b","width": 0,"height": 0,"x":0,"y":0}],"formatV": "1"}');
         trace(Interp.convertToXML(mySwagJson));
 
     }
